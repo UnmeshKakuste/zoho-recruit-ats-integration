@@ -1,0 +1,13 @@
+{
+  "name": "zoho-recruit-ats-integration",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "serverless offline"
+  },
+  "devDependencies": {
+    "serverless": "^3.39.0",
+    "serverless-offline": "^13.8.1",
+    "serverless-python-requirements": "^6.1.1"
+  }
+}

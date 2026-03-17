@@ -1,0 +1,53 @@
+service: zoho-recruit-ats-integration
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: ap-south-1
+  stage: dev
+  environment:
+    ZOHO_CLIENT_ID: ${env:ZOHO_CLIENT_ID}
+    ZOHO_CLIENT_SECRET: ${env:ZOHO_CLIENT_SECRET}
+    ZOHO_REFRESH_TOKEN: ${env:ZOHO_REFRESH_TOKEN}
+    ZOHO_RECRUIT_BASE_URL: ${env:ZOHO_RECRUIT_BASE_URL, 'https://recruit.zoho.in/recruit/v2'}
+    ZOHO_ACCOUNTS_BASE_URL: ${env:ZOHO_ACCOUNTS_BASE_URL, 'https://accounts.zoho.in'}
+    ZOHO_ORG_ID: ${env:ZOHO_ORG_ID, ''}
+
+functions:
+  getJobs:
+    handler: handler.get_jobs
+    events:
+      - http:
+          path: jobs
+          method: get
+          cors: true
+
+  createCandidate:
+    handler: handler.create_candidate
+    events:
+      - http:
+          path: candidates
+          method: post
+          cors: true
+
+  getApplications:
+    handler: handler.get_applications
+    events:
+      - http:
+          path: applications
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: localhost
+
+  pythonRequirements:
+    dockerizePip: non-linux
+    slim: true
